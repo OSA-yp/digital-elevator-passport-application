@@ -1,0 +1,102 @@
+
+/*
+Лифт
+модель 
+назначение
+заводскойНомер 
+срокИспользования
+регистрационныйНомер
+датаИзготовления
+*/
+entity Elevator {
+    id UUID required
+    model String required
+    purpose String required
+    factoryNumber String required
+    useTerm String required
+    registrationNumber String
+    manufacturingDate Date required
+}
+
+/*
+Простой
+дата
+причиныТип (справочник)
+описание
+*/
+entity Stop {
+  date Date
+  description String
+}
+
+relationship OneToMany {
+  Stop to Elevator{stops}
+}
+
+
+/* Справочник типов простоя */
+entity StopReasonsType {
+  name String
+}
+
+relationship OneToOne {
+  Stop{reasonType} to StopReasonsType
+}
+
+
+  /*
+  Завод
+  наименование
+  адрес
+  */
+entity Factory {
+	Name String required
+    Address String
+}
+
+relationship OneToOne {
+	Elevator{factory} to Factory
+}
+
+/*
+Мощность завода по годам
+год
+объем
+
+*/
+entity FactoryValumePerYear {
+   year String required
+   quantity Integer required
+}
+
+
+relationship OneToMany {
+	Factory to FactoryValumePerYear{factory}
+	FactoryValumePerYear to Factory{valumePerYear}
+}
+
+
+
+//relationship ManyToOne {
+//	Employee{manager} to Employee
+//}
+
+// defining multiple oneToOne relationships
+//relationship OneToOne {
+//	JobHistory{job} to Job
+//	JobHistory{department} to Department
+//	JobHistory{employee} to Employee
+//}
+
+// Set pagination options
+paginate Elevator with infinite-scroll
+paginate FactoryValumePerYear, Stop with pagination
+
+// Use Data Transfer Objects (DTO)
+// dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except Elevator
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
