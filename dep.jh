@@ -15,7 +15,7 @@ entity Elevator {
     factoryNumber String required
     useTerm String required
     registrationNumber String
-    manufacturingDate Date required
+    manufacturingDate String required
 }
 
 /*
@@ -25,7 +25,7 @@ entity Elevator {
 описание
 */
 entity Stop {
-  date Date
+  date String
   description String
 }
 
